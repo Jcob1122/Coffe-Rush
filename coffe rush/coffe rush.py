@@ -10,21 +10,6 @@ import pygame
 
 pygame.font.init()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 
@@ -46,8 +31,8 @@ SCORE_FOFT = pygame.font.SysFont("comicsans", 50)
 GO_FONT = pygame.font.SysFont("comicsans", 100)
 
 
-KUBEK_IMAGE = pygame.image.load(os.path.join('coffe rush', 'Assets', 'Kubeczek.png'))
-KAWA_IMAGE = pygame.image.load(os.path.join('coffe rush', 'Assets', 'drawing.png'))
+KUBEK_IMAGE = pygame.image.load(os.path.join('coffe rush','Assets','Kubeczek.png'))
+KAWA_IMAGE = pygame.image.load(os.path.join('coffe rush','Assets','drawing.png'))
 KUBEK = pygame.transform.scale(KUBEK_IMAGE, (KUBEK_WIDTH, KUBEK_HEIGHT))
 KAWA = pygame.transform.scale(KAWA_IMAGE, (KAWA_WIDTH, KAWA_HEIGHT))
 KAWA1 = pygame.transform.scale(KAWA_IMAGE, (KAWA_WIDTH, KAWA_HEIGHT))
@@ -65,7 +50,8 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Coffe Rush!")
 
 
-def draw_window(kubek, kawa, kawa1, kawa2, score, kawa3):
+def draw_window(kubek, kawa, kawa1, kawa2, score, kawa3, hscore ):
+
     WIN.fill(WHITE)
     WIN.blit(KUBEK, (kubek.x, kubek.y))
     WIN.blit(KAWA, (kawa.x, kawa.y ) )
@@ -74,28 +60,28 @@ def draw_window(kubek, kawa, kawa1, kawa2, score, kawa3):
     if score > 100:
         WIN.blit(KAWA3, (kawa3.x, kawa3.y ) )
     score_text = SCORE_FOFT.render("Score: " + str(score), 1, BLACK)
-    WIN.blit(score_text, (400,0))
+    WIN.blit(score_text, (0,0))
+    if score > hscore:
+        hscore = score
+    hscore_text = SCORE_FOFT.render("High Score: " + str(hscore), 1, BLACK)
+    WIN.blit(hscore_text, (600,0))
     if score < 0:
         go_text = GO_FONT.render("Game Over! ", 1, BLACK)
-        go_text2 = GO_FONT.render(" Przytrzymaj SPACE,", 1, BLACK)
+        go_text2 = GO_FONT.render(" Kliknij SPACE,", 1, BLACK)
         go_text3 = GO_FONT.render(" aby zacząc od nowa", 1, BLACK)
         WIN.fill(WHITE) 
         WIN.blit(go_text, (WIDTH/2 -  go_text.get_width()/2,HEIGHT/2 - go_text.get_height()/2))
         WIN.blit(go_text2, (WIDTH/2 -  go_text2.get_width()/2,600 - go_text2.get_height()/2))
         WIN.blit(go_text3, (WIDTH/2 -  go_text3.get_width()/2,800 - go_text3.get_height()/2)) 
+        score_text = SCORE_FOFT.render("Score: " + str(score), 1, BLACK)
+        WIN.blit(score_text, (0,0))
+        WIN.blit(hscore_text, (600,0))
+    
     
     pygame.display.update()
 
-
-
-
-
-    
-
-
-
-
 def main():
+
     kubek = pygame.Rect(450, 900, KUBEK_WIDTH, KUBEK_HEIGHT)
     kawa = pygame.Rect(random.randint(20, 980),0, KAWA_WIDTH, KAWA_HEIGHT)
     kawa1 = pygame.Rect(random.randint(20, 980),0, KAWA_WIDTH, KAWA_HEIGHT)
@@ -105,35 +91,36 @@ def main():
     score = 0
     hscore = 0
     
-    
     clock = pygame.time.Clock()
     
     run = True
     while run:
+        
         pygame.time.delay(1)
         if kubek.colliderect(kawa):
             kawa.y = (0)
             kawa.x = random.randint(20, 980)
             score += 5
-
+            if score > hscore:
+                hscore = score
         if kubek.colliderect(kawa1):
             kawa1.y = (0)
             kawa1.x = random.randint(20, 980)
             score += 5
+            if score > hscore:
+                hscore = score
         if kubek.colliderect(kawa2):
             kawa2.y = (0)
             kawa2.x = random.randint(20, 980)
             score += 5
+            if score > hscore:
+                hscore = score
         if kubek.colliderect(kawa3):
             kawa3.y = (0)
             kawa3.x = random.randint(20, 980)
-            score += 10
-
-
-
-
-
-        
+            score += 10 
+            if score > hscore:
+                hscore = score
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -160,7 +147,7 @@ def main():
             score -= 5
         
         
-        draw_window(kubek, kawa, kawa1, kawa2, score, kawa3,  )
+        draw_window(kubek, kawa, kawa1, kawa2, score, kawa3, hscore )
         kawa.y += Vel1
         
         kawa1.y += Vel2
@@ -169,36 +156,22 @@ def main():
         if score >= 100:
             kawa3.y +=Vel4
         if score < 0:
-            
+            kawa.y = 0       
+            kawa1.y = 0       
+            kawa2.y = 0
+            kawa3.y = 0           
             if keys_press[pygame.K_SPACE]:
+                if score > hscore:
+                    hscore = score
                 score = 0
-                main()
-
-
-
-  
+                kawa.y += Vel1
         
+                kawa1.y += Vel2
         
-
-        
-        
-            
-
-
-            
-            
-            
-
-                
-
-            
-        
-         
-            
-            
-
-        
-        
+                kawa2.y += Vel
+                if score >= 100:
+                    kawa3.y +=Vel4
+                       
     pygame.quit
     
 
