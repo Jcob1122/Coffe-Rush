@@ -28,9 +28,9 @@ Vel2 = 3
 Vel3 = 6
 Vel4 = 4
 
-SCORE_FOFT = pygame.font.SysFont("Book Antiqua", 50)
+SCORE_FOFT = pygame.font.SysFont("Gill Sans", 50)
 GO_FONT = pygame.font.SysFont("Gill Sans", 60)
-XD_FONT = pygame.font.SysFont("Book Antiqua", 70)
+XD_FONT = pygame.font.SysFont("Gill Sans", 70)
 
 
 KUBEK_IMAGE = pygame.image.load(os.path.join('coffe rush','Assets','Kubeczek.png'))
@@ -99,7 +99,7 @@ COFFEE2 = pygame.transform.scale(pygame.image.load(os.path.join('coffe rush', 'A
 def draw_menu():
     WIN.blit(COFFEE, (0,0))
     menu_text = XD_FONT.render("Kliknij Space aby zacząć :)", 1, BLACK)
-    WIN.blit(menu_text, (WIDTH/2 - menu_text.get_width()/2, HEIGHT/2 - menu_text.get_height()/2))
+    WIN.blit(menu_text, (WIDTH/2 - menu_text.get_width()/2, 900 - menu_text.get_height()/2))
     pygame.display.update()
 
 def menu():
