@@ -11,9 +11,9 @@ pygame.font.init()
 
 WHITE = (255,255,255)
 BLACK = (0,0,0)
+COLORF = (255,204,128)
 
-
-FPS = 100
+FPS = 80
 CIASTKO_WIDTH, CIASTKO_HEIGHT = 60, 60
 KUBEK_WIDTH, KUBEK_HEIGHT = 150 , 100
 KAWA_WIDTH, KAWA_HEIGHT = 40, 50
@@ -61,13 +61,13 @@ pygame.display.set_caption("Coffe Rush!")
 
 def draw_window(kubek, kawa, kawa1, kawa2, score, kawa3, hscore, rock , health, ciastko):
 
-    WIN.blit(COFFEE2, (0,0))
+    WIN.fill(COLORF)
     WIN.blit(KUBEK, (kubek.x, kubek.y))
     WIN.blit(KAWA, (kawa.x, kawa.y ) )
     WIN.blit(KAWA1, (kawa1.x, kawa1.y ) )
     WIN.blit(KAWA2, (kawa2.x, kawa2.y ) )
     WIN.blit(ROCK, (rock.x, rock.y ) )
-    if score >= 100:
+    if score >= 100 and health <2:
         WIN.blit(CIASTKO, (ciastko.x, ciastko.y ) )
     if score > 100:
         WIN.blit(KAWA3, (kawa3.x, kawa3.y ) )
@@ -143,7 +143,6 @@ def main():
 
 
     while run:
-        menu = False
 
         
         pygame.time.delay(1)
@@ -247,7 +246,7 @@ def main():
         rock.y += Vel3
         if score >= 100:
             kawa3.y +=Vel4
-        if score >= 100:
+        if score >= 100 and health <2:
             ciastko.y += Vel4
 
 
